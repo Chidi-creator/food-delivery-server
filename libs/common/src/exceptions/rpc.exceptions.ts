@@ -18,8 +18,8 @@ export class CustomRpcException extends RpcException {
 
 // Specific exceptions for different scenarios
 export class UserNotFoundException extends CustomRpcException {
-  constructor(userId: string) {
-    super(`User with ID ${userId} not found`, HttpStatus.NOT_FOUND, 'user-service');
+  constructor(message: string) {
+    super(message, HttpStatus.NOT_FOUND, 'user-service');
   }
 }
 

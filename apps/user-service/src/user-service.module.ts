@@ -4,7 +4,8 @@ import { UserServiceService } from './user-service.service';
 import { UsersRepository } from './user.repository';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
-import { User, UserSchema } from '@chidi-food-delivery/common';
+import { User, UserSchema, ServiceName } from '@chidi-food-delivery/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -19,6 +20,15 @@ import { User, UserSchema } from '@chidi-food-delivery/common';
       inject: [ConfigService],
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    ClientsModule.register([
+      {
+        name: ServiceName.NOTIFICATION_SERVICE,
+        transport: Transport.TCP,
+        options: {
+          port: 3002,
+        },
+      },
+    ]),
   ],
   controllers: [UserServiceController],
   providers: [UserServiceService, UsersRepository],

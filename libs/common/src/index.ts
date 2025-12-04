@@ -3,7 +3,7 @@ export * from './schemas/abstract.schema';
 export * from './schemas/abstract.repository';
 export * from './global/common';
 export * from './schemas/user.schema';
-export * from './dto/create-user-dto';
+export * from './dto/user-dto';
 export * from './filters/gateway-exception.filter';
 export * from './filters/microservice-exception.filter';
 export * from './interceptors/logging.interceptor';
