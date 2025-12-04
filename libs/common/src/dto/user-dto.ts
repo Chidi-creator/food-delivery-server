@@ -1,7 +1,15 @@
-import { IsArray, IsEmail, IsNotEmpty, IsOptional, IsString, IsBoolean } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsBoolean,
+} from 'class-validator';
 import { IUser } from '../schemas/types/user';
 import { UserRole } from '../global/common';
 
+//create user dto
 export class CreateUserDto implements IUser {
   @IsNotEmpty()
   @IsEmail()
@@ -30,5 +38,16 @@ export class CreateUserDto implements IUser {
   @IsOptional()
   @IsBoolean()
   verified?: boolean;
+}
 
+//login user dto
+
+export class LoginUserDto {
+  @IsNotEmpty()
+  @IsString()
+  identifier: string;
+
+  @IsNotEmpty()
+  @IsString()
+  password: string;
 }

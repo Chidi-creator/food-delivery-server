@@ -36,6 +36,18 @@ export class ValidationException extends GatewayException {
   }
 }
 
+export class DatabaseException extends GatewayException {
+  constructor(message: string = 'Database error occurred') {
+    super(message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export class UserNotFoundException extends GatewayException {
+  constructor(message: string) {
+    super(message, HttpStatus.NOT_FOUND);
+  }
+}
+
 export class ServiceUnavailableException extends GatewayException {
   constructor(serviceName: string) {
     super(`${serviceName} service is currently unavailable`, HttpStatus.SERVICE_UNAVAILABLE);
