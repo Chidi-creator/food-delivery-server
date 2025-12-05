@@ -99,6 +99,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/user-service/tsconfig.app.json"
       }
+    },
+    "vendor-service": {
+      "type": "application",
+      "root": "apps/vendor-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/vendor-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/vendor-service/tsconfig.app.json"
+      }
     }
   }
 }
