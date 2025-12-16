@@ -1,6 +1,6 @@
 import { Controller, Post, UseGuards } from '@nestjs/common';
 import { LocalGuard } from '../auth/guards/local.guard';
-import { CurrentUser } from './decorators/current-user.decorator';
+import { CurrentUser } from '../../../../libs/common/src/decorators/current-user.decorator';
 import { User } from '@chidi-food-delivery/common';
 import { AuthService } from './auth.service';
 

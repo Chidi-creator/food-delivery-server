@@ -1,8 +1,7 @@
 import { User, UserRole } from '@chidi-food-delivery/common';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLES_KEY } from '../../module.api/decorators/roles.decorator';
-
+import { ROLES_KEY } from '@chidi-food-delivery/common';
 @Injectable()
 export class RoleGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}

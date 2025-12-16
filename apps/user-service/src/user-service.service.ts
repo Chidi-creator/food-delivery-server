@@ -168,6 +168,57 @@ export class UserServiceService {
     }
   }
 
+  async addUserRole(userId: string, role: string): Promise<User> {
+    try {
+      // Validate userId
+      if (!Types.ObjectId.isValid(userId)) {
+        throw new CustomRpcException(
+          'Invalid user ID.',
+          HttpStatus.BAD_REQUEST,
+          ServiceName.USER_SERVICE,
+        );
+      }
+
+      // Check if user exists
+      const user = await this.usersRepository.findOne({
+        _id: new Types.ObjectId(userId),
+      });
+
+      if (!user) {
+        throw new UserNotFoundException('User not found.');
+      }
+
+      // Update user role using $addToSet to prevent duplicates
+      const updatedUser = await this.usersRepository.findOneAndUpdate(
+        { _id: new Types.ObjectId(userId) },
+        { $addToSet: { role } },
+      );
+
+      if (!updatedUser) {
+        throw new CustomRpcException(
+          'Failed to update user role.',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          ServiceName.USER_SERVICE,
+        );
+      }
+
+      this.logger.log(`Role '${role}' added to user ${userId}`);
+      return updatedUser;
+    } catch (error) {
+      this.logger.error(`Failed to add role to user ${userId}:`, error);
+
+      if (error instanceof RpcException) {
+        throw error;
+      }
+
+      throw new CustomRpcException(
+        'Failed to update user role.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        ServiceName.USER_SERVICE,
+      );
+    }
+  }
+
   private sendWelcomeNotification(user: User): void {
     try {
       const notificationPayload: NotificationMessage = {

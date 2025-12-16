@@ -10,11 +10,13 @@ import { Observable, throwError } from 'rxjs';
 @Catch()
 export class MicroserviceExceptionFilter implements RpcExceptionFilter<RpcException> {
   catch(exception: any, host: ArgumentsHost): Observable<any> {
+    const defaultService = this.getServiceName(host);
+    
     let error = {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       message: 'Internal server error',
       timestamp: new Date().toISOString(),
-      service: this.getServiceName(host),
+      service: defaultService,
     };
 
     if (exception instanceof RpcException) {
@@ -23,6 +25,8 @@ export class MicroserviceExceptionFilter implements RpcExceptionFilter<RpcExcept
         ...error,
         statusCode: rpcError.statusCode || HttpStatus.BAD_REQUEST,
         message: rpcError.message || rpcError,
+        // Preserve the service name from the original exception if available
+        service: rpcError.service || defaultService,
       };
     } else if (exception instanceof Error) {
       error = {
@@ -40,6 +44,6 @@ export class MicroserviceExceptionFilter implements RpcExceptionFilter<RpcExcept
 
   private getServiceName(host: ArgumentsHost): string {
     // Try to extract service name from context or use default
-    return process.env.SERVICE_NAME || 'microservice';
+    return process.env.SERVICE_NAME || 'unknown-service';
   }
 }

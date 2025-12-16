@@ -50,7 +50,7 @@ export class GatewayExceptionFilter implements ExceptionFilter {
         if (errorData && errorData.statusCode && errorData.message) {
           statusCode = errorData.statusCode;
           message = errorData.message;
-          service = errorData.service || 'microservice';
+          service = errorData.service || 'unknown-service';
         } else {
           message = exception.message;
         }
@@ -65,7 +65,7 @@ export class GatewayExceptionFilter implements ExceptionFilter {
       if (errorObj && errorObj.statusCode && errorObj.message) {
         statusCode = errorObj.statusCode;
         message = errorObj.message;
-        service = errorObj.service || 'microservice';
+        service = errorObj.service || 'unknown-service';
       } else if ((exception as any).message) {
         message = (exception as any).message;
       }

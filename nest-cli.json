@@ -64,6 +64,15 @@
         "tsConfigPath": "apps/location-service/tsconfig.app.json"
       }
     },
+    "menu-service": {
+      "type": "application",
+      "root": "apps/menu-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/menu-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/menu-service/tsconfig.app.json"
+      }
+    },
     "notification-service": {
       "type": "application",
       "root": "apps/notification-service",
@@ -98,6 +107,15 @@
       "sourceRoot": "apps/user-service/src",
       "compilerOptions": {
         "tsConfigPath": "apps/user-service/tsconfig.app.json"
+      }
+    },
+    "vendor-gateway": {
+      "type": "application",
+      "root": "apps/vendor-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/vendor-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/vendor-gateway/tsconfig.app.json"
       }
     },
     "vendor-service": {

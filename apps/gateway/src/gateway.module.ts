@@ -9,6 +9,7 @@ import { AuthService } from './module.api/auth.service';
 import { UsersController } from './module.api/users.controller';
 import { UserLocalStrategy } from './auth/strategies/local.strategy';
 import { UsersJwtStratey } from './auth/strategies/jwt.strategy';
+import { VendorsController } from './module.api/vendor.controller';
 
 @Module({
   imports: [
@@ -46,9 +47,16 @@ import { UsersJwtStratey } from './auth/strategies/jwt.strategy';
           port: 3002,
         },
       },
+      {
+        name: ServiceName.VENDOR_SERVICE,
+        transport: Transport.TCP,
+        options: {
+          port: 3003,
+        },
+      },
     ]),
   ],
-  controllers: [ AuthController, UsersController],
-  providers: [ AuthService, UserLocalStrategy, UsersJwtStratey],
+  controllers: [AuthController, UsersController, VendorsController],
+  providers: [AuthService, UserLocalStrategy, UsersJwtStratey],
 })
 export class GatewayModule {}

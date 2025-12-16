@@ -1,5 +1,6 @@
 import { LoginUserDto, ServiceName } from '@chidi-food-delivery/common';
 import { ValidationException } from '@chidi-food-delivery/common/exceptions/rpc.exceptions';
+import { MessagePatterns } from '@chidi-food-delivery/common/global/MessagePattern';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { PassportStrategy } from '@nestjs/passport';
@@ -23,7 +24,7 @@ export class UserLocalStrategy extends PassportStrategy(Strategy, 'local') {
 
     const response = await firstValueFrom(
       this.userServiceClient
-        .send({ cmd: 'validate_user' }, data)
+        .send(MessagePatterns.USER_SERVICE.VALIDATE_USER, data)
         .pipe(timeout(5000)),
     );
 

@@ -7,7 +7,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { IUser } from '../schemas/types/user';
-import { UserRole } from '../global/common';
+import { LocationCoordinates, UserRole } from '../global/common';
 
 //create user dto
 export class CreateUserDto implements IUser {
@@ -34,6 +34,9 @@ export class CreateUserDto implements IUser {
   @IsNotEmpty()
   @IsString()
   phoneNumber: string;
+
+  @IsOptional()
+  lastlocation?: LocationCoordinates | undefined;
 
   @IsOptional()
   @IsBoolean()
