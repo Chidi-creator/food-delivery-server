@@ -1,4 +1,5 @@
 import { ServiceName, TokenPayload } from '@chidi-food-delivery/common';
+import { MessagePatterns } from '@chidi-food-delivery/common/global/MessagePattern';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
@@ -21,10 +22,10 @@ export class UsersJwtStratey extends PassportStrategy(Strategy, 'jwt') {
 
   async validate({ userId }: TokenPayload) {
     try {
-      const profile = await firstValueFrom(
-        this.userServiceClient.send({ cmd: 'user_profile' }, userId),
+      const response = await firstValueFrom(
+        this.userServiceClient.send(MessagePatterns.USER_SERVICE.GET_PROFILE, userId),
       );
-      return profile;
+      return response.data;
     } catch (error) {
       throw error;
     }

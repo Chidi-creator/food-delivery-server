@@ -10,6 +10,11 @@ export * from './interceptors/logging.interceptor';
 export * from './typings/notification';
 export * from './utils/phoneNumber';
 export * from './typings/services';
+export * from './typings/vendorstatus';
+export * from './schemas/types/vendor';
+export * from './schemas/vendor.schema';
+export * from './decorators/current-user.decorator';
+export * from './decorators/roles.decorator';
 
 // Export with aliases to avoid naming conflicts
 export { 

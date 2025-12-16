@@ -11,7 +11,7 @@ export class CustomRpcException extends RpcException {
       statusCode,
       message,
       timestamp: new Date().toISOString(),
-      service: service || 'microservice',
+      service: service || 'unknown-service',
     });
   }
 }

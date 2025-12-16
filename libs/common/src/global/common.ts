@@ -10,6 +10,10 @@ export enum NotificationType {
   SMS = 'sms',
   PUSH = 'push',
 }
+export interface LocationCoordinates {
+  type: 'Point';
+  coordinates: [number, number];
+}
 
 export interface TokenPayload {
   userId: string;

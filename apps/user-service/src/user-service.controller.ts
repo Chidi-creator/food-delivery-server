@@ -8,6 +8,7 @@ import {
   LoginUserDto,
   ServiceName,
 } from '@chidi-food-delivery/common';
+import { MessagePatterns } from '@chidi-food-delivery/common/global/MessagePattern';
 
 @Controller()
 export class UserServiceController {
@@ -62,7 +63,6 @@ export class UserServiceController {
 
       if (error instanceof CustomRpcException) {
         this.logger.error('User validation error:', error);
-        throw error;
       }
 
       throw new CustomRpcException(
@@ -73,7 +73,7 @@ export class UserServiceController {
     }
   }
 
-  @MessagePattern({ cmd: 'user_profile' })
+  @MessagePattern(MessagePatterns.USER_SERVICE.GET_PROFILE)
   async getUserById(@Payload() userId: string) {
     try {
       const result = await this.userServiceService.getProfile(userId);
@@ -84,6 +84,30 @@ export class UserServiceController {
       };
     } catch (error) {
       this.logger.error('Get user by ID error:', error);
+    }
+  }
+
+  @MessagePattern(MessagePatterns.USER_SERVICE.UPDATE_USER_ROLE)
+  async updateUserRole(@Payload() data: { userId: string; role: string }) {
+    try {
+      const result = await this.userServiceService.addUserRole(data.userId, data.role);
+      return {
+        success: true,
+        message: 'User role updated successfully',
+        data: result,
+      };
+    } catch (error) {
+      this.logger.error('Update user role error:', error);
+
+      if (error instanceof CustomRpcException) {
+        throw error;
+      }
+
+      throw new CustomRpcException(
+        error.message || 'Failed to update user role.',
+        500,
+        ServiceName.USER_SERVICE,
+      );
     }
   }
 }

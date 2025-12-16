@@ -1,15 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from './abstract.schema';
 import { IUser } from './types/user';
-import { UserRole } from '../global/common';
+import { LocationCoordinates, UserRole } from '../global/common';
 
 @Schema({ timestamps: true, versionKey: false })
 export class User extends AbstractDocument implements IUser {
-  @Prop({ 
-    required: true,
-    unique: true,
-    index: true
-  })
+  @Prop({ required: true })
   email: string;
 
   @Prop({ required: true })
@@ -18,11 +14,7 @@ export class User extends AbstractDocument implements IUser {
   @Prop({ required: true })
   firstName: string;
 
-  @Prop({ 
-    required: true,
-    unique: true,
-    index: true
-  })
+  @Prop({ required: true })
   phoneNumber: string;
 
   @Prop({ required: true })
@@ -30,6 +22,19 @@ export class User extends AbstractDocument implements IUser {
 
   @Prop({ default: false })
   verified: boolean;
+  
+  @Prop({
+    type: {
+      type: String,
+      enum: ['Point'],
+      default: 'Point',
+    },
+    coordinates: {
+      type: [Number],
+      default: [0, 0],
+    },
+  })
+  lastlocation?: LocationCoordinates;
 
   @Prop({
     type: [String],
@@ -43,3 +48,9 @@ export class User extends AbstractDocument implements IUser {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.index({ email: 1 }, { unique: true });
+
+UserSchema.index({ phoneNumber: 1 }, { unique: true });
+
+UserSchema.index({ deletedAt: 1, email: 1 });

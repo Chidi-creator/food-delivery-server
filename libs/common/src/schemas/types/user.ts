@@ -1,4 +1,4 @@
-import { UserRole } from '../../global/common';
+import { LocationCoordinates, UserRole } from '../../global/common';
 
 export interface IUser {
   email: string;
@@ -7,6 +7,7 @@ export interface IUser {
   phoneNumber: string;
   lastName: string;
   role: UserRole[];
+  lastlocation?: LocationCoordinates
   verified?: boolean;
   deletedAt?: Date;
   createdAt?: Date;
