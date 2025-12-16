@@ -46,6 +46,11 @@ export class VendorServiceService {
     // Check if vendor already exists (by name, email)
     await this.checkExistingVendor(name, email);
 
+    // Transform location if it's just an array [lng, lat] to GeoJSON format
+    const formattedLocation = Array.isArray(location)
+      ? { type: 'Point' as const, coordinates: location as unknown as  [number, number] }
+      : location;
+
     const vendorPayload: Partial<Vendor> = {
       userId: new Types.ObjectId(userId),
       name,
@@ -53,7 +58,7 @@ export class VendorServiceService {
       logoUrl,
       approvalStatus: approvalStatus || VendorApprovalStatus.PENDING,
       imageUrl,
-      location,
+      location: formattedLocation,
       phoneNumber: formattedPhoneNumber,
       email,
     };
