@@ -15,6 +15,7 @@ import {
 } from '@chidi-food-delivery/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { Types } from 'mongoose';
+import { MessagePatterns } from '@chidi-food-delivery/common/global/MessagePattern';
 
 @Injectable()
 export class UserServiceService {
@@ -49,10 +50,10 @@ export class UserServiceService {
 
     try {
       const user = await this.usersRepository.create(payload);
-      
+
       // Send welcome notification after successful user creation
       this.sendWelcomeNotification(user);
-      
+
       return user;
     } catch (error) {
       throw new CustomRpcException(
@@ -219,7 +220,7 @@ export class UserServiceService {
     }
   }
 
-  private sendWelcomeNotification(user: User): void {
+  private async sendWelcomeNotification(user: User): Promise<void> {
     try {
       const notificationPayload: NotificationMessage = {
         type: NotificationType.EMAIL,
@@ -228,14 +229,20 @@ export class UserServiceService {
         subject: 'Welcome to Chidi Food Delivery!',
         text: `Hello ${user.firstName},\n\nThank you for registering with Chidi Food Delivery. We're excited to have you on board!\n\nBest regards,\nChidi Food Delivery Team`,
       };
-      
+
       // Emit notification (fire and forget)
-      this.notificationClient.emit('user_registered', notificationPayload);
-      
+      this.notificationClient.emit(
+        MessagePatterns.NOTIFICATION_SERVICE.SEND_NOTIFICATION,
+        notificationPayload,
+      );
+
       this.logger.log(`Welcome notification sent to ${user.email}`);
     } catch (error) {
       // Don't throw error - notification failure shouldn't break registration
-      this.logger.warn(`Failed to send welcome notification to ${user.email}:`, error);
+      this.logger.warn(
+        `Failed to send welcome notification to ${user.email}:`,
+        error,
+      );
     }
   }
 }
