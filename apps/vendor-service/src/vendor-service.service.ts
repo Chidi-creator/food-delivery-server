@@ -2,6 +2,8 @@ import {
   CustomRpcException,
   internationalisePhoneNumber,
   IVendor,
+  NotificationMessage,
+  NotificationType,
   ServiceName,
   UserRole,
   Vendor,
@@ -23,6 +25,8 @@ export class VendorServiceService {
   constructor(
     @Inject(ServiceName.USER_SERVICE)
     private readonly userServiceClient: ClientProxy,
+    @Inject(ServiceName.NOTIFICATION_SERVICE)
+    private readonly notificationClient: ClientProxy,
     private readonly vendorsRepository: VendorsRepository,
   ) {}
 
@@ -48,7 +52,10 @@ export class VendorServiceService {
 
     // Transform location if it's just an array [lng, lat] to GeoJSON format
     const formattedLocation = Array.isArray(location)
-      ? { type: 'Point' as const, coordinates: location as unknown as  [number, number] }
+      ? {
+          type: 'Point' as const,
+          coordinates: location as unknown as [number, number],
+        }
       : location;
 
     const vendorPayload: Partial<Vendor> = {
@@ -78,6 +85,9 @@ export class VendorServiceService {
           `Failed to update user role for userId ${userId}: ${error.message}`,
         );
       });
+
+      // Notify vendor of successful creation
+      await this.notifyVendorCreation(vendor);
 
       return vendor;
     } catch (error) {
@@ -175,6 +185,27 @@ export class VendorServiceService {
         'A vendor with this email already exists.',
         HttpStatus.CONFLICT,
         ServiceName.VENDOR_SERVICE,
+      );
+    }
+  }
+
+  private async notifyVendorCreation(vendor: IVendor): Promise<void> {
+    try {
+      const notificationPayload: NotificationMessage = {
+        type: NotificationType.EMAIL,
+        recipient: vendor.email,
+        event: 'VENDOR_ACCOUNT_CREATED',
+        subject: 'Your Vendor Account Has Been Created',
+        text: `Welcome ${vendor.name} to Chidi Food Delivery, your vendor account has been successfully created and is pending approval.`,
+      };
+
+      this.notificationClient.emit(
+        MessagePatterns.NOTIFICATION_SERVICE.SEND_NOTIFICATION,
+        notificationPayload,
+      );
+    } catch (error) {
+      this.logger.warn(
+        `Failed to send vendor creation notification to ${vendor.email}: ${error.message}`,
       );
     }
   }

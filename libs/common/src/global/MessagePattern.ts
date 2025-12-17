@@ -6,7 +6,7 @@ export const MessagePatterns = {
         UPDATE_USER_ROLE: { cmd: 'update_user_role' },
     },
     NOTIFICATION_SERVICE: {
-        SEND_NOTIFICATION: { cmd: 'send_notification' },
+        SEND_NOTIFICATION: 'send_notification',
     },
     VENDOR_SERVICE: {
         CREATE_VENDOR: { cmd: 'create_vendor' },
