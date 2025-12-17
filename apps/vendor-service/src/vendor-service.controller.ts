@@ -36,4 +36,17 @@ export class VendorServiceController {
       data: vendor,
     };
   }
+
+  @MessagePattern(MessagePatterns.VENDOR_SERVICE.GET_VENDOR_BY_ID)
+  async getVendorById(@Payload() vendorId: string) {
+    const vendor = await this.vendorServiceService.getVendorById(
+      new Types.ObjectId(vendorId),
+    );
+
+    return {
+      success: true,
+      message: 'Vendor retrieved successfully',
+      data: vendor,
+    };
+  }
 }
