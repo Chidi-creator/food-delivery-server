@@ -21,7 +21,7 @@ import { VendorsController } from './module.api/vendor.controller';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        const expiresIn = configService.get<string>('JWT_EXPIRES_IN') || '7d';
+        const expiresIn = configService.get<string>('JWT_EXPIRES_IN') || '1d';
         return {
           secret:
             configService.get<string>('JWT_SECRET') || 'default-secret-key',
