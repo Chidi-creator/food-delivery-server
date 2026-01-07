@@ -49,7 +49,7 @@ export class UserServiceController {
     }
   }
 
-  @MessagePattern({ cmd: 'validate_user' })
+  @MessagePattern(MessagePatterns.USER_SERVICE.VALIDATE_USER)
   async validateUser(@Payload() data: LoginUserDto) {
     try {
       const user = await this.userServiceService.validateUser(data);
