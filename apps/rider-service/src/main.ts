@@ -1,15 +1,15 @@
 import { NestFactory } from '@nestjs/core';
-import { VendorServiceModule } from './vendor-service.module';
+import { RiderServiceModule } from './rider-service.module';
+import { ServicePort, MicroserviceExceptionFilter } from '@chidi-food-delivery/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { MicroserviceExceptionFilter, ServicePort } from '@chidi-food-delivery/common';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    VendorServiceModule,
+    RiderServiceModule,
     {
       transport: Transport.TCP,
       options: {
-        port: ServicePort.VENDOR_SERVICE,
+        port: ServicePort.RIDER_SERVICE,
       },
     },
   );
@@ -17,6 +17,6 @@ async function bootstrap() {
   app.useGlobalFilters(new MicroserviceExceptionFilter());
 
   await app.listen();
-  console.log(`Vendor Service is listening on TCP port ${ServicePort.VENDOR_SERVICE}`);
+  console.log(`Rider Service is listening on TCP port ${ServicePort.RIDER_SERVICE}`);
 }
 bootstrap();

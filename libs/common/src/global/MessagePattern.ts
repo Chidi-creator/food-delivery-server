@@ -14,4 +14,15 @@ export const MessagePatterns = {
         GET_VENDOR_BY_ID: { cmd: 'get_vendor_by_id' },
         VALIDATE_VENDOR: { cmd: 'validate_vendor' },
     },
+    RIDER_SERVICE: {
+        CREATE_RIDER: { cmd: 'create_rider' },
+        VALIDATE_RIDER: { cmd: 'validate_rider' },
+        GET_RIDER_BY_ID: { cmd: 'get_rider_by_id' },
+        GET_RIDER_PROFILE: { cmd: 'get_rider_profile' },
+        UPDATE_RIDER_STATUS: { cmd: 'update_rider_status' },
+        UPDATE_RIDER_LOCATION: { cmd: 'update_rider_location' },
+        UPDATE_RIDER_PROFILE: { cmd: 'update_rider_profile' },
+        GET_AVAILABLE_RIDERS: { cmd: 'get_available_riders' },
+        GET_NEARBY_RIDERS: { cmd: 'get_nearby_riders' },
+    },
 }

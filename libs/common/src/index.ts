@@ -3,7 +3,9 @@ export * from './schemas/abstract.schema';
 export * from './schemas/abstract.repository';
 export * from './global/common';
 export * from './schemas/user.schema';
+export * from './schemas/rider.schema';
 export * from './dto/user-dto';
+export * from './dto/rider-dto';
 export * from './filters/gateway-exception.filter';
 export * from './filters/microservice-exception.filter';
 export * from './interceptors/logging.interceptor';
@@ -33,4 +35,7 @@ export {
   RateLimitException,
   MicroserviceTimeoutException
 } from './exceptions/gateway.exceptions';
+
+// Ports
+export * from './ports';
 

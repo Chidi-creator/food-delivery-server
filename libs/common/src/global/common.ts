@@ -18,3 +18,9 @@ export interface LocationCoordinates {
 export interface TokenPayload {
   userId: string;
 }
+
+export enum RiderApprovalStatus {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}

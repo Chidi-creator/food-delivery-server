@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { UserServiceController } from './user-service.controller';
-import { UserServiceService } from './user-service.service';
-import { UsersRepository } from './user.repository';
+import { RiderServiceController } from './rider-service.controller';
+import { RiderServiceService } from './rider-service.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ServiceName, ServicePort, Rider, RiderSchema } from '@chidi-food-delivery/common';
+import { RiderRepository } from './rider.repostory';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
-import { User, UserSchema, ServiceName, ServicePort } from '@chidi-food-delivery/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: './apps/user-service/.env',
+      envFilePath: './apps/rider-service/.env.example',
     }),
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigService): MongooseModuleOptions => ({
@@ -19,7 +19,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       }),
       inject: [ConfigService],
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: Rider.name, schema: RiderSchema }]),
     ClientsModule.register([
       {
         name: ServiceName.NOTIFICATION_SERVICE,
@@ -30,7 +30,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       },
     ]),
   ],
-  controllers: [UserServiceController],
-  providers: [UserServiceService, UsersRepository],
+  controllers: [RiderServiceController],
+  providers: [RiderServiceService, RiderRepository],
 })
-export class UserServiceModule {}
+export class RiderServiceModule {}
+

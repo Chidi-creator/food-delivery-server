@@ -8,7 +8,7 @@ import {
   VendorSchema,
 } from '@chidi-food-delivery/common/schemas/vendor.schema';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ServiceName } from '@chidi-food-delivery/common';
+import { ServiceName, ServicePort } from '@chidi-food-delivery/common';
 import { VendorsRepository } from './vendor.repository';
 
 @Module({
@@ -37,7 +37,7 @@ import { VendorsRepository } from './vendor.repository';
         name: ServiceName.USER_SERVICE,
         transport: Transport.TCP,
         options: {
-          port: 3001,
+          port: ServicePort.USER_SERVICE,
         },
       }
     ]),

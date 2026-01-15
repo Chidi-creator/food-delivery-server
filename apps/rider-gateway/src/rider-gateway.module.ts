@@ -4,14 +4,17 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ServiceName, ServicePort } from '@chidi-food-delivery/common';
-import { VendorController } from './module.api/vendor.controller';
-import { VendorJwtStrategy } from './auth/strategies/jwt.strategy';
+import { RiderJwtStrategy } from './auth/strategy/jwt.strategy';
+import { RiderLocalStrategy } from './auth/strategy/local.strategy';
+import { AuthController } from './module.api/auth.controller';
+import { AuthService } from './module.api/auth.service';
+import { RiderController } from './module.api/rider.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: './apps/vendor-gateway/.env.example',
+      envFilePath: './apps/rider-gateway/.env.example',
     }),
     PassportModule,
     JwtModule.registerAsync({
@@ -30,17 +33,10 @@ import { VendorJwtStrategy } from './auth/strategies/jwt.strategy';
     }),
     ClientsModule.register([
       {
-        name: ServiceName.VENDOR_SERVICE,
+        name: ServiceName.RIDER_SERVICE,
         transport: Transport.TCP,
         options: {
-          port: ServicePort.VENDOR_SERVICE,
-        },
-      },
-      {
-        name: ServiceName.USER_SERVICE,
-        transport: Transport.TCP,
-        options: {
-          port: ServicePort.USER_SERVICE,
+          port: ServicePort.RIDER_SERVICE,
         },
       },
       {
@@ -52,7 +48,7 @@ import { VendorJwtStrategy } from './auth/strategies/jwt.strategy';
       },
     ]),
   ],
-  controllers: [VendorController],
-  providers: [VendorJwtStrategy],
+  controllers: [AuthController, RiderController],
+  providers: [AuthService, RiderJwtStrategy, RiderLocalStrategy],
 })
-export class VendorGatewayModule {}
+export class RiderGatewayModule {}

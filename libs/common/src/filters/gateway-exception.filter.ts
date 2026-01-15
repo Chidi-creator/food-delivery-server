@@ -72,6 +72,7 @@ export class GatewayExceptionFilter implements ExceptionFilter {
     }
 
     const responseBody = {
+      success: false,
       statusCode,
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),

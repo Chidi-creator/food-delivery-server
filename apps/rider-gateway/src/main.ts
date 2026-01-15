@@ -1,11 +1,11 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { GatewayModule } from './gateway.module';
-import { ValidationPipe } from '@nestjs/common';
+import { RiderGatewayModule } from './rider-gateway.module';
 import { GatewayExceptionFilter, ServicePort } from '@chidi-food-delivery/common';
+import { ValidationPipe } from '@nestjs/common';
 import { LoggingInterceptor } from '@chidi-food-delivery/common/interceptors/logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(GatewayModule);
+  const app = await NestFactory.create(RiderGatewayModule);
   app.enableCors();
 
   const httpAdapter = app.get(HttpAdapterHost);
@@ -23,7 +23,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new GatewayExceptionFilter(httpAdapter));
 
-  await app.listen(ServicePort.GATEWAY);
-  console.log(`Gateway is listening on port ${ServicePort.GATEWAY}`);
+  await app.listen(ServicePort.RIDER_GATEWAY);
+  console.log(`Rider Gateway is listening on port ${ServicePort.RIDER_GATEWAY}`);
 }
 bootstrap();

@@ -73,6 +73,24 @@
         "tsConfigPath": "apps/order-service/tsconfig.app.json"
       }
     },
+    "rider-gateway": {
+      "type": "application",
+      "root": "apps/rider-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/rider-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rider-gateway/tsconfig.app.json"
+      }
+    },
+    "rider-service": {
+      "type": "application",
+      "root": "apps/rider-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/rider-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rider-service/tsconfig.app.json"
+      }
+    },
     "user-service": {
       "type": "application",
       "root": "apps/user-service",

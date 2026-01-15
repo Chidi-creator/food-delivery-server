@@ -3,6 +3,7 @@ import { VendorGatewayModule } from './vendor-gateway.module';
 import {
   GatewayExceptionFilter,
   LoggingInterceptor,
+  ServicePort,
 } from '@chidi-food-delivery/common';
 import { ValidationPipe } from '@nestjs/common';
 
@@ -25,6 +26,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new GatewayExceptionFilter(httpAdapter));
 
-  await app.listen(process.env.port ?? 3005);
+  await app.listen(ServicePort.VENDOR_GATEWAY);
+  console.log(`Vendor Gateway is listening on port ${ServicePort.VENDOR_GATEWAY}`);
 }
 bootstrap();
